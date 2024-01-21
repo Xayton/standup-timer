@@ -42,6 +42,10 @@ build/Release
 node_modules/
 jspm_packages/
 
+node_modules
+dist-ssr
+*.local
+
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 
@@ -102,7 +106,6 @@ dist
 
 # vuepress v2.x temp and cache directory
 .temp
-.cache
 
 # Docusaurus cache and generated files
 .docusaurus
@@ -128,3 +131,14 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
