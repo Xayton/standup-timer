@@ -31,7 +31,7 @@ function toggle(index: number) {
 }
 
 const remaining = computed(() => Math.max(0, totalTime - timers.value.reduce((sum, t) => sum + t.seconds, 0)));
-const totalTimerTime = timers.value.reduce((sum, t) => sum + t.max, 0);
+const totalTimerTime = computed(() => timers.value.reduce((sum, t) => sum + t.max, 0));
 
 function randomize() {
   for (let i = timers.value.length - 1; i > 0; i--) {
@@ -40,6 +40,10 @@ function randomize() {
     timers.value[i] = timers.value[j];
     timers.value[j] = temp;
   }
+}
+
+function deleteLine(index: number) {
+  timers.value.splice(index, 1);
 }
 
 </script>
@@ -55,7 +59,7 @@ function randomize() {
 
   <TimerLine v-for="(t, index) in timers" 
              :name="t.name" :seconds="t.seconds" :max="t.max" :active="index === activeTimerIndex"
-             @toggle="toggle(index)"/>
+             @toggle="toggle(index)" @delete="deleteLine(index)" />
   
   <Footer :total-users="timers.length" :total-time="totalTimerTime" @randomize="randomize"></Footer>
 </template>

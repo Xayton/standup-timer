@@ -2,6 +2,8 @@
 import {computed} from "vue";
 import {secToTime} from "../composables/secToTime.ts";
 
+defineEmits(['toggle', 'delete']);
+
 const props = defineProps<{ name: string; seconds: number; max: number; active: boolean }>()
 const percentage = computed(() => Math.min(Math.floor(props.seconds / props.max * 100), 100) + "%");
 const overtime = computed(() => props.seconds > props.max);
@@ -14,7 +16,7 @@ const overtime = computed(() => props.seconds > props.max);
     <b>{{ name }}</b>
     <span><span class="overtime" v-if="overtime">+{{secToTime(seconds - max)}}</span>{{ secToTime(max) }}</span>
 
-    <span class="remove-line">x</span>
+    <span class="remove-line" @click.stop="$emit('delete')">&#x2715;</span>
   </div>
 </template>
 
@@ -39,11 +41,19 @@ const overtime = computed(() => props.seconds > props.max);
   color: var(--color3);
   
   position: absolute;
-  left: -20px;
-  top: 5px;
+  left: -30px;
+  width: 30px;
+  top: 6px;
+  padding-left: 10px;
 }
 
+/* Show the "remove-line" when the line is hovered. */
 .line:hover > .remove-line {
+  display: block;
+}
+
+/* Continue showing the "remove-line" when the mouse hover moves onto it. */
+.remove-line:hover {
   display: block;
 }
 
