@@ -13,7 +13,7 @@ The configuration is specified using the URL query parameters:
   - `Tom=60` adds a line with name "Tom" and duration of 60 seconds
 
 Example:  
-`https:\\base-url?name=Standup&total=300&Tom=60&Matt=120`
+`https://base-url?name=Standup&total=300&Tom=60&Matt=120`
 
 ## Idea: Picture in picture
 Note:_this is not implemented yet._
