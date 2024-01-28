@@ -15,9 +15,8 @@ The configuration is specified using the URL query parameters:
 Example:  
 `https:\\base-url?name=Standup&total=300&Tom=60&Matt=120`
 
-## Picture in picture
+## Idea: Picture in picture
+Note:_this is not implemented yet._
+
 If supported by your browser, clicking on the icon will open a small window, on top of all other, that will show the same content as the main page.
 https://developer.mozilla.org/en-US/docs/Web/API/Document_Picture-in-Picture_API#browser_compatibility
-
-
-http://localhost:5173/?name=Standup&total=20&Tom=12&Jade=12&Jim=120&Matt=120&Jerry=60&Joe=120&Kris=60&Alan=120
