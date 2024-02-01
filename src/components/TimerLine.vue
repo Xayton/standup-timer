@@ -24,7 +24,7 @@ const overtime = computed(() => props.seconds > props.max);
 .line {
   border: var(--color4) 1px solid;
   border-radius: 6px;
-  margin: 10px 0;
+  margin: 12px 0;
   padding: 6px;
 
   cursor: pointer;
@@ -63,7 +63,7 @@ const overtime = computed(() => props.seconds > props.max);
 }
 
 .active {
-  box-shadow: 0 0 0 3px rgba(227, 227, 227, .4);
+  box-shadow: 0 0 4px 6px rgba(227, 227, 227, .4);
 }
 
 .line-background {
