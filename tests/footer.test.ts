@@ -11,7 +11,7 @@ test('mount component', async () => {
     props: {totalUsers: 10, totalTime: 120},
   })
 
-  expect(wrapper.text()).toContain('10 users')
+  expect(wrapper.text()).toContain('10 people')
   expect(wrapper.text()).toContain(`(${secToTime(120)})`)
 
 
@@ -19,6 +19,9 @@ test('mount component', async () => {
   expect(wrapper.emitted()).toHaveProperty('randomize')
 
   await wrapper.setProps({totalUsers: 2, totalTime: 15})
-  expect(wrapper.text()).toContain('2 users')
+  expect(wrapper.text()).toContain('2 people')
   expect(wrapper.text()).toContain(`(${secToTime(15)})`)
+
+  await wrapper.setProps({totalUsers: 1, totalTime: 15})
+  expect(wrapper.text()).toContain('1 person')
 })

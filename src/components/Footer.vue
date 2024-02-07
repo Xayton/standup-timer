@@ -7,7 +7,7 @@ defineEmits(['randomize']);
 
 <template>
   <div class="footer">
-    <i>{{ totalUsers }} users ({{ secToTime(totalTime) }})</i>
+    <i>{{ totalUsers }} {{ totalUsers === 1 ? 'person' : 'people'}} ({{ secToTime(totalTime) }})</i>
     <img src="/dices.svg" class="icon" alt="Randomize order" @click="$emit('randomize')"/>
   </div>
 </template>
@@ -27,7 +27,7 @@ defineEmits(['randomize']);
 .icon {
   height: 20px;
   cursor: pointer;
-  
+
   margin-left: 12px;
 }
 
