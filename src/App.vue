@@ -46,6 +46,48 @@ function deleteLine(index: number) {
   timers.value.splice(index, 1);
 }
 
+const pipMode = ref(false);
+
+async function openDocumentPip() {
+  if (!('documentPictureInPicture' in window)) return;
+  if (pipMode.value) return;
+
+  const timer = document.querySelector("#pip");
+  const lines = document.querySelector("#lines");
+  if (!timer || !lines) return;
+
+  const pipOptions = {
+    height: lines.clientHeight + 115,
+    width: 320
+  }
+
+  // @ts-ignore: this is because the documentPictureInPicture is experimental.
+  const pipWindow = await window.documentPictureInPicture.requestWindow(pipOptions);
+
+  pipMode.value = true;
+
+  // Copy style sheets over from the initial document.
+  [...document.styleSheets].forEach((styleSheet) => {
+    const cssRules = [...styleSheet.cssRules].map((rule) => rule.cssText).join('');
+    const style = document.createElement('style');
+
+    style.textContent = cssRules;
+    pipWindow.document.head.appendChild(style);
+  });
+
+  // Move the player to the Picture-in-Picture window.
+  pipWindow.document.body.append(timer);
+
+  // Move the player back when the Picture-in-Picture window closes.
+  pipWindow.addEventListener("pagehide", () => {
+    const pipContainer = document.querySelector("#pip-container");
+    const timer = pipWindow.document.querySelector("#pip");
+
+    pipContainer?.append(timer);
+    pipMode.value = false;
+  });
+}
+
 </script>
 
 <template>
@@ -53,15 +95,25 @@ function deleteLine(index: number) {
     <img src="/timer.svg" class="logo" alt="Timer"/>
     <div>
       <h1>{{ standupName }}</h1>
-      <span><b>{{ secToTime(totalTime) }}</b> ({{secToTime(remaining)}} remaining)</span>
+      <span><b>{{ secToTime(totalTime) }}</b> ({{ secToTime(remaining) }} remaining)</span>
     </div>
   </div>
 
-  <TimerLine v-for="(t, index) in timers" 
-             :name="t.name" :seconds="t.seconds" :max="t.max" :active="index === activeTimerIndex"
-             @toggle="toggle(index)" @delete="deleteLine(index)" />
-  
-  <Footer :total-users="timers.length" :total-time="totalTimerTime" @randomize="randomize"></Footer>
+  <div id="lines">
+    <TimerLine v-for="(t, index) in timers"
+               :name="t.name" :seconds="t.seconds" :max="t.max" :active="index === activeTimerIndex"
+               @toggle="toggle(index)" @delete="deleteLine(index)"/>
+  </div>
+  <Footer :total-users="timers.length" :total-time="totalTimerTime" @randomize="randomize"
+          @pip="openDocumentPip"></Footer>
+
+  <div id="pip-container">
+    <div id="pip" v-show="pipMode">
+      <TimerLine v-for="(t, index) in timers"
+                 :name="t.name" :seconds="t.seconds" :max="t.max" :active="index === activeTimerIndex"
+                 @toggle="toggle(index)" @delete="deleteLine(index)"/>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -78,5 +130,11 @@ function deleteLine(index: number) {
 .logo {
   height: 5em;
   padding: 0.6em;
+}
+
+#pip {
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  width: 100%;
 }
 </style>
