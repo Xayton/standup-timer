@@ -15,8 +15,7 @@ The configuration is specified using the URL query parameters:
 Example:  
 `https://base-url?name=Standup&total=300&Tom=60&Matt=120`
 
-## Idea: Picture in picture
-Note:_this is not implemented yet._
+## Picture in Picture
+You can open the list of timers in an additional Picture In Picture window.
 
-If supported by your browser, clicking on the icon will open a small window, on top of all other, that will show the same content as the main page.
-https://developer.mozilla.org/en-US/docs/Web/API/Document_Picture-in-Picture_API#browser_compatibility
+This feature uses the [Document Picture in Picture API](https://developer.mozilla.org/en-US/docs/Web/API/Document_Picture-in-Picture_API), that is supported only by some browsers. If supported, a button in the footer will be available to use it.
