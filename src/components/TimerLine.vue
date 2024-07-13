@@ -39,7 +39,7 @@ const overtime = computed(() => props.seconds > props.max);
 .remove-line {
   display: none;
   color: var(--color3);
-  
+
   position: absolute;
   left: -30px;
   width: 30px;

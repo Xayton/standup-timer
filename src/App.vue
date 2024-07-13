@@ -33,6 +33,9 @@ function toggle(index: number) {
 const remaining = computed(() => Math.max(0, totalTime - timers.value.reduce((sum, t) => sum + t.seconds, 0)));
 const totalTimerTime = computed(() => timers.value.reduce((sum, t) => sum + t.max, 0));
 
+const totalUsed = computed(() => timers.value.reduce((sum, t) => sum + t.seconds, 0));
+const totalExtra = computed(() => Math.max(0, totalUsed.value - timers.value.reduce((sum, t) => sum + t.max, 0)));
+
 function randomize() {
   for (let i = timers.value.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -95,7 +98,10 @@ async function openDocumentPip() {
     <img src="/timer.svg" class="logo" alt="Timer"/>
     <div>
       <h1>{{ standupName }}</h1>
-      <span><b>{{ secToTime(totalTime) }}</b> ({{ secToTime(remaining) }} remaining)</span>
+      <span><b>{{ secToTime(totalTime) }}</b>&nbsp
+        <span v-if="totalExtra == 0">({{ secToTime(remaining) }} remaining)</span>
+        <span v-else class="overtime">+{{ secToTime(totalExtra) }}</span>
+      </span>
     </div>
   </div>
 
@@ -119,7 +125,7 @@ async function openDocumentPip() {
 <style scoped>
 .header {
   display: flex;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .header h1 {
@@ -136,5 +142,9 @@ async function openDocumentPip() {
   margin: 0 auto;
   padding: 1rem 2rem;
   width: 100%;
+}
+
+.overtime {
+  color: var(--color3);
 }
 </style>

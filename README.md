@@ -8,7 +8,8 @@ This is a simple Vue application using Vite as the build system.
 ## How to use
 The configuration is specified using the URL query parameters:
 - `name`: the name of the meeting/stand-up
-- `total`: the total duration of the meeting, in seconds
+- `total`: the total duration of the meeting, in seconds.  
+  If omitted, the sum of the time for each person will be used as the total.
 - any other query adds a line in the list of people. For example:
   - `Tom=60` adds a line with name "Tom" and duration of 60 seconds
 
