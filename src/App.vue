@@ -12,8 +12,18 @@ let {standupName, totalTime, timers: rawTimers} = getUrlQueryParameters();
 const timers: Ref<TimerItem[]> = ref(rawTimers);
 let activeTimerIndex = ref<number | null>(null);
 
+
+// Save the previous tick of the interval. The browser might delay or skip events when saving power.
+let prevTime: number = 0;
+
 const {start, stop} = useInterval(1000, () => {
-  if (activeTimerIndex.value !== null) timers.value[activeTimerIndex.value].seconds += 1;
+  // If there is a previous time, use it to compute the increment. Most of the time it will be the useInterval
+  // frequency (so 1 second), but it might be more if the browser skips events to save power.
+  // If previous time is zero, this is the first tick. Just add 1 second.
+  const increment = prevTime === 0 ? 1 : Math.round((Date.now() - prevTime) / 1000);
+  prevTime = Date.now();
+
+  if (activeTimerIndex.value !== null) timers.value[activeTimerIndex.value].seconds += increment;
 }, false);
 
 function toggle(index: number) {
@@ -26,6 +36,7 @@ function toggle(index: number) {
     }
   } else {
     activeTimerIndex.value = index;
+    prevTime = 0;
     start();
   }
 }
