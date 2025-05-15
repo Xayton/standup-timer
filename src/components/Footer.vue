@@ -34,6 +34,12 @@ function supportsPip(): boolean {
   cursor: pointer;
 
   margin-left: 12px;
+  transition: transform 0.1s ease;
+}
+
+/* Show some feedback (a slight animation) when the icon is pressed. */
+.icon:active {
+  transform: scale(0.85);
 }
 
 .pip {
