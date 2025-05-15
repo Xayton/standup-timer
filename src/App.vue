@@ -8,10 +8,12 @@ import {getUrlQueryParameters, TimerItem} from "./composables/urlQueryParams.ts"
 
 
 // Get the configuration from the query parameters.
-let {standupName, totalTime, timers: rawTimers} = getUrlQueryParameters();
+let {standupName, totalTime, random, timers: rawTimers} = getUrlQueryParameters();
 const timers: Ref<TimerItem[]> = ref(rawTimers);
 let activeTimerIndex = ref<number | null>(null);
 
+// If requested with a query parameter, shuffle the contents of the timers list.
+if (random) randomize();
 
 // Save the previous tick of the interval. The browser might delay or skip events when saving power.
 let prevTime: number = 0;
