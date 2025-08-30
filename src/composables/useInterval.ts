@@ -5,11 +5,11 @@ export function useInterval(interval: number, callback: () => void, initStarted:
 
     const start = function () {
         if (intervalId == null) {
-            intervalId = setInterval(callback, interval);
+            intervalId = window.setInterval(callback, interval);
         }
     }
     const stop = function () {
-        if (intervalId != null) clearInterval(intervalId);
+        if (intervalId != null) window.clearInterval(intervalId);
         intervalId = null;
     }
 
