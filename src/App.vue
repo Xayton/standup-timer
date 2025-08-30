@@ -59,6 +59,15 @@ function randomize() {
 }
 
 function deleteLine(index: number) {
+  if (activeTimerIndex.value !== null) {
+    if (index < activeTimerIndex.value) {
+      // If deleting a line before the current active line, update it.
+      activeTimerIndex.value = activeTimerIndex.value - 1;
+    } else if (index === activeTimerIndex.value) {
+      // Deleting the currently active line.
+      activeTimerIndex.value = null;
+    }
+  }
   timers.value.splice(index, 1);
 }
 
